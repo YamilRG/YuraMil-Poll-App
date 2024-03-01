@@ -1,0 +1,24 @@
+#server configuracion
+server = '172.18.3.143'
+database = 'IVMS2'
+username = 'yura'
+password = 'mxyura871.'
+driver = '{ODBC Driver 17 for SQL Server}'
+
+connection_string = f'DRIVER={driver};SERVER={server};DATABASE={database};UID={username};PWD={password}'
+conn = pyodbc.connect(connection_string)
+
+
+sql_query = 'SELECT ID_Empleado, FechaRegistro, Hora, ID_Lector FROM Lerdo';
+
+df_db = pd.read_sql(sql_query, conn)
+
+csv_path = 'Archivo.csv'
+df_db.to_csv(csv_path, index=False)
+
+conn.close()
+
+print(f'El archivo CSV Se Genero')
+
+
+df.iloc[:, 3] = pd.to_datetime(df.iloc[:, 3], errors='coerce').dt.strftime('%M:%S.%f')
